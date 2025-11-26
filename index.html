@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP Coin - Crypto Mining with Wallet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        header {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #ffcc00, #ff9900);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .coin-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .info-card {
+            background: rgba(255, 204, 0, 0.2);
+            border: 1px solid rgba(255, 204, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px 25px;
+            font-weight: bold;
+            min-width: 250px;
+        }
+        
+        .info-value {
+            font-size: 1.3rem;
+            color: #ffcc00;
+            margin-top: 5px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            font-size: 1.8rem;
+            margin-right: 10px;
+            color: #ffcc00;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .card-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .card-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .wallet-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .wallet-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .wallet-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: #ffcc00;
+        }
+        
+        .wallet-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .wallet-balance {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #ffcc00;
+        }
+        
+        .wallet-value {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: #4CAF50;
+        }
+        
+        .wallet-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .wallet-button {
+            background: linear-gradient(135deg, #ff8a00, #da1b60);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(218, 27, 96, 0.4);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 180px;
+        }
+        
+        .wallet-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(218, 27, 96, 0.6);
+        }
+        
+        .wallet-button:active {
+            transform: translateY(0);
+        }
+        
+        .wallet-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .wallet-button-icon {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .withdraw-form {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        .withdraw-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #ffcc00;
+        }
+        
+        .mining-controls {
+            margin: 40px 0;
+            position: relative;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #mining-button {
+            background: linear-gradient(135deg, #ff8a00, #da1b60);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border-radius: 70px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(218, 27, 96, 0.5);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #mining-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(218, 27, 96, 0.7);
+        }
+        
+        #mining-button:active {
+            transform: translateY(0);
+        }
+        
+        #mining-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .button-icon {
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            height: 15px;
+            border-radius: 10px;
+            margin: 40px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #00b09b, #96c93d);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .progress-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+        
+        .mining-status {
+            font-size: 1.3rem;
+            margin: 20px 0;
+            min-height: 40px;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .mining-animation {
+            display: none;
+            margin: 30px auto;
+            width: 100px;
+            height: 100px;
+            position: relative;
+        }
+        
+        .mining-animation.active {
+            display: block;
+        }
+        
+        .mining-circle {
+            width: 100%;
+            height: 100%;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-top: 8px solid #ffcc00;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 1.5rem;
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .feature-desc {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            text-align: center;
+            width: 100%;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #ffcc00;
+            color: #0f2027;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .next-payout {
+            background: rgba(255, 204, 0, 0.1);
+            border: 1px solid rgba(255, 204, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            #mining-button {
+                padding: 18px 40px;
+                font-size: 1.3rem;
+            }
+            
+            .wallet-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .wallet-button {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .coin-info {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .info-card {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .mining-animation {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            .card-value {
+                font-size: 1.6rem;
+            }
+            
+            .wallet-balance {
+                font-size: 2rem;
+            }
+            
+            #mining-button {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header id="top">
+            <div class="logo">
+                <i class="fas fa-coins"></i>
+            </div>
+            <h1>SP Coin Mining</h1>
+            <p class="subtitle">Optimized browser-based cryptocurrency mining with wallet & withdrawal</p>
+            
+            <div class="coin-info">
+                <div class="info-card">
+                    <div>Current Value</div>
+                    <div class="info-value">1 SPC = ₹17.00</div>
+                </div>
+                <div class="info-card">
+                    <div>Official Launch</div>
+                    <div class="info-value">January 1, 2026</div>
+                </div>
+            </div>
+        </header>
+        
+        <section id="mining-section">
+            <div class="dashboard">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-coins card-icon"></i>
+                        <div class="card-title">SPC Mined</div>
+                    </div>
+                    <div class="card-value" id="coins-mined">0.000000</div>
+                    <div class="card-label">Total SP Coins Mined</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-tachometer-alt card-icon"></i>
+                        <div class="card-title">Hash Rate</div>
+                    </div>
+                    <div class="card-value" id="hash-rate">0 H/s</div>
+                    <div class="card-label">Current Mining Speed</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-clock card-icon"></i>
+                        <div class="card-title">Mining Time</div>
+                    </div>
+                    <div class="card-value" id="mining-time">00:00:00</div>
+                    <div class="card-label">Active Mining Duration</div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-bolt card-icon"></i>
+                        <div class="card-title">Power Usage</div>
+                    </div>
+                    <div class="card-value" id="power-usage">0.0 W</div>
+                    <div class="card-label">Estimated Energy Consumption</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="mining-progress"></div>
+                <div class="progress-label" id="progress-text">0% Complete</div>
+            </div>
+            
+            <div class="mining-status" id="status-message">
+                <i class="fas fa-info-circle"></i> Ready to start mining SP Coin
+            </div>
+            
+            <div class="mining-controls">
+                <button id="mining-button">
+                    <i class="fas fa-play button-icon"></i> Start Mining
+                </button>
+            </div>
+            
+            <div class="mining-animation" id="mining-animation">
+                <div class="mining-circle"></div>
+            </div>
+        </section>
+        
+        <section class="wallet-section" id="wallet-section">
+            <div class="wallet-header">
+                <i class="fas fa-wallet wallet-icon"></i>
+                <div class="wallet-title">SP Coin Wallet</div>
+            </div>
+            
+            <div class="wallet-balance" id="wallet-balance">0.000000 SPC</div>
+            <div class="wallet-value" id="wallet-value">Value: ₹0.00</div>
+            <div class="card-label">Available Balance</div>
+            
+            <div class="wallet-actions">
+                <button class="wallet-button" id="transfer-to-wallet">
+                    <i class="fas fa-exchange-alt wallet-button-icon"></i> Transfer to Wallet
+                </button>
+                <button class="wallet-button" id="withdraw-button">
+                    <i class="fas fa-paper-plane wallet-button-icon"></i> Withdraw Funds
+                </button>
+                <button class="wallet-button" id="wallet-history">
+                    <i class="fas fa-history wallet-button-icon"></i> Transaction History
+                </button>
+            </div>
+            
+            <div class="withdraw-form" id="withdraw-form">
+                <div class="form-group">
+                    <label class="form-label" for="withdraw-amount">Amount to Withdraw (SPC)</label>
+                    <input type="number" id="withdraw-amount" class="form-input" placeholder="0.00" step="0.01" min="0.1">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="wallet-address">Destination Wallet Address</label>
+                    <input type="text" id="wallet-address" class="form-input" placeholder="Enter your SP Coin wallet address">
+                </div>
+                <div class="wallet-actions">
+                    <button class="wallet-button" id="confirm-withdraw">
+                        <i class="fas fa-check wallet-button-icon"></i> Confirm Withdrawal
+                    </button>
+                    <button class="wallet-button" id="cancel-withdraw" style="background: #666;">
+                        <i class="fas fa-times wallet-button-icon"></i> Cancel
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <section id="features-section">
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <div class="feature-title">Secure</div>
+                    <div class="feature-desc">Bank-level encryption for all transactions</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <div class="feature-title">Efficient</div>
+                    <div class="feature-desc">Optimized algorithm for maximum efficiency</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-robot feature-icon"></i>
+                    <div class="feature-title">Smart</div>
+                    <div class="feature-desc">Auto-adjusts to your device capabilities</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-stopwatch feature-icon"></i>
+                    <div class="feature-title">Auto-Stop</div>
+                    <div class="feature-desc">Automatically stops after 24 hours</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-wallet feature-icon"></i>
+                    <div class="feature-title">Integrated Wallet</div>
+                    <div class="feature-desc">Secure wallet with withdrawal options</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-rupee-sign feature-icon"></i>
+                    <div class="feature-title">Great Value</div>
+                    <div class="feature-desc">1 SPC = ₹17.00 at official launch</div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>SP Coin Mining Simulator 2023 | This is a simulation for demonstration purposes only</p>
+            <p>Official Launch: January 1, 2026 | Current Value: 1 SPC = ₹17.00</p>
+        </footer>
+    </div>
+
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-bell"></i> <span id="notification-text">Notification message</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const miningButton = document.getElementById('mining-button');
+            const coinsMinedElement = document.getElementById('coins-mined');
+            const hashRateElement = document.getElementById('hash-rate');
+            const miningTimeElement = document.getElementById('mining-time');
+            const powerUsageElement = document.getElementById('power-usage');
+            const statusMessageElement = document.getElementById('status-message');
+            const miningProgressElement = document.getElementById('mining-progress');
+            const progressTextElement = document.getElementById('progress-text');
+            const miningAnimation = document.getElementById('mining-animation');
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            const scrollToTopButton = document.getElementById('scrollToTop');
+            
+            // Wallet elements
+            const walletBalanceElement = document.getElementById('wallet-balance');
+            const walletValueElement = document.getElementById('wallet-value');
+            const transferToWalletButton = document.getElementById('transfer-to-wallet');
+            const withdrawButton = document.getElementById('withdraw-button');
+            const walletHistoryButton = document.getElementById('wallet-history');
+            const withdrawForm = document.getElementById('withdraw-form');
+            const withdrawAmountInput = document.getElementById('withdraw-amount');
+            const walletAddressInput = document.getElementById('wallet-address');
+            const confirmWithdrawButton = document.getElementById('confirm-withdraw');
+            const cancelWithdrawButton = document.getElementById('cancel-withdraw');
+            
+            // Constants
+            const COIN_VALUE = 17; // 1 SPC = ₹17.00
+            const LAUNCH_DATE = "January 1, 2026";
+            
+            let isMining = false;
+            let miningStartTime = 0;
+            let coinsMined = 0;
+            let walletBalance = 0;
+            let miningInterval;
+            let timeInterval;
+            const MAX_MINING_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+            
+            // Initialize smooth scrolling
+            initSmoothScrolling();
+            
+            miningButton.addEventListener('click', toggleMining);
+            transferToWalletButton.addEventListener('click', transferToWallet);
+            withdrawButton.addEventListener('click', showWithdrawForm);
+            confirmWithdrawButton.addEventListener('click', processWithdrawal);
+            cancelWithdrawButton.addEventListener('click', hideWithdrawForm);
+            walletHistoryButton.addEventListener('click', showTransactionHistory);
+            
+            function toggleMining() {
+                if (isMining) {
+                    stopMining();
+                    showNotification("Mining stopped successfully");
+                } else {
+                    startMining();
+                    showNotification("Mining started - SP Coin mining in progress");
+                }
+            }
+            
+            function startMining() {
+                isMining = true;
+                miningStartTime = Date.now();
+                miningButton.innerHTML = '<i class="fas fa-stop button-icon"></i> Stop Mining';
+                statusMessageElement.innerHTML = '<i class="fas fa-cog fa-spin"></i> Mining SP Coin...';
+                miningAnimation.classList.add('active');
+                
+                // Use requestAnimationFrame for better performance
+                miningInterval = requestAnimationFrame(updateMiningStats);
+                timeInterval = setInterval(updateMiningTime, 1000);
+                
+                // Auto stop after 24 hours
+                setTimeout(() => {
+                    if (isMining) {
+                        stopMining();
+                        showNotification("24-hour mining cycle completed automatically");
+                    }
+                }, MAX_MINING_TIME);
+            }
+            
+            function stopMining() {
+                isMining = false;
+                miningButton.innerHTML = '<i class="fas fa-play button-icon"></i> Start Mining';
+                statusMessageElement.innerHTML = '<i class="fas fa-info-circle"></i> Mining stopped. Ready to start again.';
+                miningAnimation.classList.remove('active');
+                
+                // Clear intervals
+                cancelAnimationFrame(miningInterval);
+                clearInterval(timeInterval);
+                
+                // Reset progress bar
+                miningProgressElement.style.width = '0%';
+                progressTextElement.textContent = '0% Complete';
+            }
+            
+            function updateMiningStats() {
+                if (!isMining) return;
+                
+                // Simulate mining activity
+                const timeElapsed = Date.now() - miningStartTime;
+                const progressPercentage = Math.min((timeElapsed / MAX_MINING_TIME) * 100, 100);
+                
+                // Update progress bar
+                miningProgressElement.style.width = `${progressPercentage}%`;
+                progressTextElement.textContent = `${progressPercentage.toFixed(1)}% Complete`;
+                
+                // Calculate coins mined (simulated continuous mining)
+                const miningRate = 0.0001; // Base mining rate
+                coinsMined = miningRate * (timeElapsed / 1000);
+                
+                // Update display
+                coinsMinedElement.textContent = coinsMined.toFixed(6);
+                
+                // Simulate hash rate (randomized for realism)
+                const hashRate = Math.floor(5000 + Math.random() * 15000);
+                hashRateElement.textContent = `${hashRate.toLocaleString()} H/s`;
+                
+                // Calculate power usage
+                const powerUsage = (hashRate / 1000).toFixed(1);
+                powerUsageElement.textContent = `${powerUsage} W`;
+                
+                // Update status message based on progress
+                if (progressPercentage > 90) {
+                    statusMessageElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Mining cycle nearly complete';
+                } else if (progressPercentage > 50) {
+                    statusMessageElement.innerHTML = '<i class="fas fa-cog fa-spin"></i> Mining at optimal performance';
+                }
+                
+                // Continue the animation frame loop
+                if (isMining) {
+                    miningInterval = requestAnimationFrame(updateMiningStats);
+                }
+            }
+            
+            function updateMiningTime() {
+                if (!isMining) return;
+                
+                const timeElapsed = Date.now() - miningStartTime;
+                const hours = Math.floor(timeElapsed / 3600000);
+                const minutes = Math.floor((timeElapsed % 3600000) / 60000);
+                const seconds = Math.floor((timeElapsed % 60000) / 1000);
+                
+                miningTimeElement.textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            function transferToWallet() {
+                if (coinsMined <= 0) {
+                    showNotification("No coins available to transfer");
+                    return;
+                }
+                
+                walletBalance += coinsMined;
+                coinsMined = 0;
+                coinsMinedElement.textContent = "0.000000";
+                updateWalletDisplay();
+                showNotification(`Transferred ${walletBalance.toFixed(6)} SPC to your wallet`);
+            }
+            
+            function updateWalletDisplay() {
+                walletBalanceElement.textContent = walletBalance.toFixed(6) + " SPC";
+                const valueInRupees = (walletBalance * COIN_VALUE).toFixed(2);
+                walletValueElement.textContent = `Value: ₹${valueInRupees}`;
+            }
+            
+            function showWithdrawForm() {
+                if (walletBalance <= 0) {
+                    showNotification("No funds available for withdrawal");
+                    return;
+                }
+                
+                withdrawForm.classList.add('active');
+                withdrawAmountInput.value = walletBalance.toFixed(6);
+                withdrawAmountInput.max = walletBalance.toFixed(6);
+            }
+            
+            function hideWithdrawForm() {
+                withdrawForm.classList.remove('active');
+                withdrawAmountInput.value = "";
+                walletAddressInput.value = "";
+            }
+            
+            function processWithdrawal() {
+                const amount = parseFloat(withdrawAmountInput.value);
+                const address = walletAddressInput.value.trim();
+                
+                if (!amount || amount <= 0) {
+                    showNotification("Please enter a valid withdrawal amount");
+                    return;
+                }
+                
+                if (amount > walletBalance) {
+                    showNotification("Insufficient funds for this withdrawal");
+                    return;
+                }
+                
+                if (!address) {
+                    showNotification("Please enter a valid wallet address");
+                    return;
+                }
+                
+                // Simulate withdrawal processing
+                walletBalance -= amount;
+                updateWalletDisplay();
+                hideWithdrawForm();
+                showNotification(`Withdrawal of ${amount.toFixed(6)} SPC to ${address.substring(0, 10)}... processed successfully`);
+            }
+            
+            function showTransactionHistory() {
+                showNotification("Transaction history feature coming soon!");
+            }
+            
+            function showNotification(message) {
+                notificationText.textContent = message;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            function initSmoothScrolling() {
+                // Show/hide scroll to top button based on scroll position
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        scrollToTopButton.classList.add('visible');
+                    } else {
+                        scrollToTopButton.classList.remove('visible');
+                    }
+                });
+                
+                // Scroll to top when button is clicked
+                scrollToTopButton.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
