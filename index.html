@@ -84,6 +84,36 @@
             margin-top: 5px;
         }
         
+        .social-section {
+            margin: 20px 0;
+        }
+        
+        .telegram-button {
+            display: inline-flex;
+            align-items: center;
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
+            margin: 10px 0;
+        }
+        
+        .telegram-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 136, 204, 0.6);
+            background: #0077b5;
+        }
+        
+        .telegram-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
         .dashboard {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -525,6 +555,11 @@
                 padding: 15px 30px;
                 font-size: 1.1rem;
             }
+            
+            .telegram-button {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
@@ -546,6 +581,13 @@
                     <div>Official Launch</div>
                     <div class="info-value">January 1, 2026</div>
                 </div>
+            </div>
+            
+            <div class="social-section">
+                <a href="https://t.me/+cMfDcO62gWcxMTNl" class="telegram-button" target="_blank">
+                    <i class="fab fa-telegram telegram-icon"></i>
+                    Join Our Telegram Channel
+                </a>
             </div>
         </header>
         
@@ -678,9 +720,9 @@
                     <div class="feature-desc">Secure wallet with withdrawal options</div>
                 </div>
                 <div class="feature">
-                    <i class="fas fa-rupee-sign feature-icon"></i>
-                    <div class="feature-title">Great Value</div>
-                    <div class="feature-desc">1 SPC = ₹17.00 at official launch</div>
+                    <i class="fab fa-telegram feature-icon"></i>
+                    <div class="feature-title">Community</div>
+                    <div class="feature-desc">Join our Telegram for updates & support</div>
                 </div>
             </div>
         </section>
@@ -688,6 +730,12 @@
         <footer>
             <p>SP Coin Mining Simulator 2023 | This is a simulation for demonstration purposes only</p>
             <p>Official Launch: January 1, 2026 | Current Value: 1 SPC = ₹17.00</p>
+            <div class="social-section" style="margin-top: 15px;">
+                <a href="https://t.me/+cMfDcO62gWcxMTNl" class="telegram-button" target="_blank" style="font-size: 1rem; padding: 10px 20px;">
+                    <i class="fab fa-telegram telegram-icon"></i>
+                    Join Telegram Channel
+                </a>
+            </div>
         </footer>
     </div>
 
